@@ -2,14 +2,14 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>test</title>
+<title>voistock_voice_get</title>
 </head>
 <body>
     <input type="text" id="content_input" placeholder="此处输入你相应搜索的内容" value="早見沙織"/>
-    <button onclick="first_get_base_info()">获取25条列表信息</button>
-    <button onclick="download_base_info()">导出信息</button>
+    <button onclick="first_get_base_info()">检索所有信息（每次25条，完毕会有弹窗）</button>
+    <button onclick="download_base_info()">导出检索出的信息</button>
     <button onclick="download_id()">导出文件id</button>
-    <button onclick="download2()">下载</button>
+    <button onclick="download2()">下载音频文件</button>
     <br>
     <span>建议数据获取完毕后，导出信息和文件id，再点击右侧按钮，导入id文件，就可以直接下载了</span>
     <input type="file" id="file_id" onchange="load_id()" value="导入文件id"/>
