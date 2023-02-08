@@ -1,22 +1,180 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>voistock_voice_get</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>voistock_voice_get</title>
+    <style>
+        input#content_input {
+            width: 200px;
+            flex-grow: 1;
+            color: #606266;
+            font-size: inherit;
+            height: 30px;
+            line-height: 30px;
+            padding: 0;
+            outline: none;
+            border: 1px solid;
+            border-radius: 3px;
+            background: none;
+            box-sizing: border-box;
+        }
+
+        input#request_interval_input {
+            width: 80px;
+            flex-grow: 1;
+            color: #606266;
+            font-size: inherit;
+            height: 30px;
+            line-height: 30px;
+            padding: 0;
+            outline: none;
+            border: 1px solid;
+            border-radius: 3px;
+            background: none;
+            box-sizing: border-box;
+        }
+
+        input#download_interval_input {
+            width: 80px;
+            flex-grow: 1;
+            color: #606266;
+            font-size: inherit;
+            height: 30px;
+            line-height: 30px;
+            padding: 0;
+            outline: none;
+            border: 1px solid;
+            border-radius: 3px;
+            background: none;
+            box-sizing: border-box;
+        }
+
+        a {
+            display: inline-flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            vertical-align: middle;
+            position: relative;
+            text-decoration: none;
+            outline: none;
+            cursor: pointer;
+            padding: 0;
+            font-size: 14px;
+            font-weight: 500;
+            color: #a0cfff;
+        }
+
+        span {
+            margin: 0;
+            width: 100%;
+            min-width: 320px;
+            min-height: 100vh;
+            line-height: 1.4;
+            font-size: 16px;
+            font-weight: 400;
+            color: #303133;
+            background-color: #ffffff;
+        }
+
+        input#file_id {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            line-height: 1;
+            height: 42px;
+            white-space: nowrap;
+            cursor: pointer;
+            color: #ffffff;
+            text-align: center;
+            box-sizing: border-box;
+            outline: none;
+            transition: .1s;
+            font-weight: 500;
+            user-select: none;
+            vertical-align: middle;
+            background-color: #409eff;
+            border: 1px solid #dcdfe6;
+            border-color: #409eff;
+            padding: 8px 15px;
+            font-size: 14px;
+            border-radius: 4px;
+        }
+
+        #textarea1 {
+            resize: vertical;
+            padding: 5px 11px;
+            line-height: 1.5;
+            box-sizing: border-box;
+            font-size: inherit;
+            font-family: inherit;
+            color: #606266;
+            background-color: #ffffff;
+            background-image: none;
+            box-shadow: 0 0 0 1px #dcdfe6 inset;
+            border-radius: 4px;
+            border: none;
+        }
+
+        div.row_class {
+            margin: 5px;
+        }
+
+        button {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            line-height: 1;
+            height: 32px;
+            white-space: nowrap;
+            cursor: pointer;
+            color: #ffffff;
+            text-align: center;
+            box-sizing: border-box;
+            outline: none;
+            transition: .1s;
+            font-weight: 500;
+            user-select: none;
+            vertical-align: middle;
+            background-color: #409eff;
+            border: 1px solid #dcdfe6;
+            border-color: #409eff;
+            padding: 8px 15px;
+            font-size: 14px;
+            border-radius: 4px;
+        }
+    </style>
 </head>
+
 <body>
-    <input type="text" id="content_input" placeholder="此处输入你相应搜索的内容" value="早見沙織"/>
-    <button onclick="first_get_base_info()">检索所有信息（每次25条，完毕会有弹窗）</button>
-    <button onclick="download_base_info()">导出检索出的信息</button>
-    <button onclick="download_id()">导出文件id</button>
-    <button onclick="download2()">下载音频文件</button>
-    <br>
-    <span>建议数据获取完毕后，导出信息和文件id，再点击右侧按钮，导入id文件，就可以直接下载了</span>
-    <input type="file" id="file_id" onchange="load_id()" value="导入文件id"/>
-    <br>
-    <textarea id="textarea1" rows="50" cols="200"></textarea>
+    <div class="row_class" id="row1">
+        <a style="font-size: 30px;" target="_blank" href="https://www.voistock.com/ja/">voistock</a>
+        <span style="font-size: 24px;">日本声优免费音源素材站点 数据爬取下载</span>
+    </div>
+    <div class="row_class" id="row2">
+        <input type="text" id="content_input" placeholder="此处输入你相应搜索的内容" value="早見沙織" />
+        <button onclick="first_get_base_info()">检索所有信息（每次25条，完毕会有弹窗）</button>
+        <button onclick="download_base_info()">导出检索出的信息</button>
+        <button onclick="download_id()">导出文件id</button>
+        <button onclick="download2()">下载音频文件</button>
+    </div>
+    <div class="row_class" id="row3">
+        <span>请求接口的间隔时间(ms)：</span>
+        <input type="text" id="request_interval_input" placeholder="不建议太短，可能会寄，默认5000毫秒" value="5000" />
+        <span>下载音频的间隔时间(ms)：</span>
+        <input type="text" id="download_interval_input" placeholder="不建议太短，可能会寄，默认2000毫秒" value="2000" />
+    </div>
+    <div class="row_class" id="row4">
+        <span>建议数据获取完毕后，导出信息和文件id(备份数据)，再点击右侧按钮，导入id文件，就可以直接下载了</span>
+        <input type="file" id="file_id" onchange="load_id()" value="导入文件id" />
+    </div>
+    <div class="row_class" id="row5">
+        <textarea id="textarea1" rows="50" cols="200"></textarea>
+    </div>
 </body>
 <script src="jsSHA/src/sha.js"></script>
 <script src="apiAuth.js"></script>
 <script src="index.js"></script>
+
 </html>
