@@ -28,3 +28,23 @@
     // .....
 ]
 ```
+
+## How to download the voice via console
+```
+npm install 
+
+node download.js \
+    --id-txt ./id_美樹さやか.txt \
+    --data-json ./data_美樹さやか.json \
+    --out-dir ./output \
+    --uid xxxxxx
+```
+Async download. Very fast!
+
+Skip file if it exists.
+
+### The name format of download file :
+`{characternames}_{voiceText}_{id}.mp3`. eg: `美樹さやか_なんだかマジカルな力が満ちてきた_5ab5b2d23e418626cd660c82.mp3`
+
+### !!! This way must be used with uid
+（todo）使用 `https://voice.voistock.com/mp3play.php` 接口可以不需要。
