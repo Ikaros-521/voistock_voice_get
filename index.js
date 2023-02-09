@@ -360,7 +360,7 @@ function download_base_info() {
 }
 
 // 下载喵 “下载音频文件”按键 
-function download2(id, index) {
+function download2() {
     let time = document.getElementById("download_interval_input").value;
 
     if(isNumber(time)) {
@@ -371,7 +371,7 @@ function download2(id, index) {
         show_alert("给ye填数字啊，kora");
     }
 
-    for(let i = index; i < id.length; i++) {
+    for(let i = 0; i < id.length; i++) {
         setTimeout(() => {
             mp3play(id[i], i)
         }, time * i);
