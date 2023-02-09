@@ -260,12 +260,33 @@ async function get_base_info(content, page, start) {
                             .join("、");
                     }
 
+                    // 声优名
+                    let voiceactnames = "-";
+                    let voiceactnamesRaw = json["data"][i]["voiceactnames"]
+                    if (includesAll(voiceactnamesRaw, searchStrings)) {
+                        voiceactnames = voiceactnamesRaw
+                            .replace(/<.*?>/g, '')
+                            .trim()
+                    }
+
+                    // 语言
+                    let voiceLanguage = json["data"][i]["voiceLanguage"]
+
+                    // 作品标题
+                    let titleName = "-"
+                    let titleNameRaw = json["data"][i]["titleName"]
+                    if (includesAll(titleNameRaw, searchStrings)) {
+                        titleName = titleNameRaw
+                            .replace(/<.*?>/g, '')
+                            .trim()
+                    }
+
                     characternames.push(temp1);
                     contentsName.push(temp2);
                     id.push(temp3);
                     voiceText.push(temp4);
 
-                    var s = (start + i + 1) + "：内容：" + temp4 + " | 角色：" + temp1 + " | 源自：" + temp2;
+                    var s = (start + i + 1) + "：内容：" + temp4 + " | ：声优" + voiceactnames + " | 源自：" + temp2;
                     // str
                     console.log(s);
 
@@ -275,7 +296,10 @@ async function get_base_info(content, page, start) {
                         voiceText: temp4,
                         characternames: temp1,
                         contentsName: temp2,
-                        voiceEmotions: voiceEmotions
+                        voiceEmotions: voiceEmotions,
+                        voiceactnames: voiceactnames,
+                        voiceLanguage: voiceLanguage,
+                        titleName: titleName
                     });
                 }
 
@@ -351,7 +375,7 @@ function download_base_info() {
         type: 'text/plain'
     });
 
-    var fileName = `data_${content}.txt`; // fileName为文件名称，自己根据实际情况赋值
+    var fileName = `data_${content}.json`; // fileName为文件名称，自己根据实际情况赋值
 
     if (window.navigator.msSaveOrOpenBlob) { // IE浏览器下
         navigator.msSaveBlob(blob, fileName);
