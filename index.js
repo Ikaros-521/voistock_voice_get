@@ -286,7 +286,7 @@ async function get_base_info(content, page, start) {
                     id.push(temp3);
                     voiceText.push(temp4);
 
-                    var s = (start + i + 1) + "：内容：" + temp4 + " | ：声优" + voiceactnames + " | 源自：" + temp2;
+                    var s = (start + i + 1) + "：内容：" + temp4 + " | 声优：" + voiceactnames + " | 源自：" + temp2;
                     // str
                     console.log(s);
 
