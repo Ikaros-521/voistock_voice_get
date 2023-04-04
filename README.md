@@ -3,7 +3,12 @@
 纯前端开发，用于便捷下载 https://www.voistock.com/ja/voicelist/index.php 的免费语音文件。
 运行index.html，用法应该一目了然了，可以看看源码，以上。
 
-## 导出 data 文件格式
+## 🔗 在线体验网址
+
+github：[https://ikaros-521.gitee.io/voistock_voice_get](https://ikaros-521.gitee.io/voistock_voice_get)  
+gitee：[https://ikaros-521.gitee.io/voistock_voice_get](https://ikaros-521.gitee.io/voistock_voice_get)  
+
+## 📖 导出 data 文件格式
 
 ```json5
 [
@@ -29,7 +34,7 @@
 ]
 ```
 
-## How to download the voice via console
+## 💿 How to download the voice via console
 ```
 npm install 
 
@@ -48,3 +53,13 @@ Skip file if it exists.
 
 ### !!! This way must be used with uid
 （todo）使用 `https://voice.voistock.com/mp3play.php` 接口可以不需要。
+
+## 🌸 致谢
+- [voistock.com](https://www.voistock.com/)
+
+## 📝 更新日志
+- 2023-04-04   
+  1、增加单次请求数量级至100条；  
+  2、新增音频范围和进度显示；  
+  3、优化说明文档；  
+  
