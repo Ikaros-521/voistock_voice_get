@@ -2,6 +2,7 @@ const fs = require('fs');
 const request = require('request');
 const commandLineArgs = require('command-line-args');
 const path = require("path");
+const utils = require('./tool/utils.js');
 
 // file is included here:
 function include(f) {
@@ -14,6 +15,7 @@ include('./apiAuth.js');
 
 let API_URL = "https://api.voistock.com/voice/voiceDownload.php"
 let uid = ""
+
 function download(id, filename) {
     let skey = createSkey()
     let scode = createScode(skey)
@@ -58,7 +60,7 @@ const optionDefinitions = [
     {
         name: 'uid',
         type: String,
-        }
+    }
 ];
 const options = commandLineArgs(optionDefinitions);
 
@@ -69,10 +71,8 @@ let _uid = options['uid'];
 uid = _uid;
 
 if (id_txt && data_json) {
-    let id_list = fs.readFileSync(id_txt, 'utf8')
-        .split(/\s/)
-        .filter((item) => item.length > 0);
-    let data_map = JSON.parse(fs.readFileSync(data_json, 'utf8'))
+    let id_list = utils.parse_id_txt(id_txt);
+    let data_map = utils.parse_data_json(data_json)
         .reduce((acc, item) => {
             acc[item.id] = item;
             return acc;
