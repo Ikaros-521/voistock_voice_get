@@ -350,7 +350,6 @@ async function get_base_info(content, page, start) {
                 }
 
                 var voice_num = 0;
-                var recordsTotal = 0;
                 try {
                     voice_num = json["recordsFiltered"];
                 } catch (e) {
