@@ -20,6 +20,21 @@
             box-sizing: border-box;
         }
 
+        input#page_scope {
+            width: 300px;
+            flex-grow: 1;
+            color: #606266;
+            font-size: inherit;
+            height: 30px;
+            line-height: 30px;
+            padding: 0;
+            outline: none;
+            border: 1px solid;
+            border-radius: 3px;
+            background: none;
+            box-sizing: border-box;
+        }
+
         input#request_interval_input {
             width: 80px;
             flex-grow: 1;
@@ -154,14 +169,18 @@
     </div>
     <div class="row_class" id="row2">
         <input type="text" id="content_input" placeholder="此处输入你相应搜索的内容" value="早見沙織" />
-        <button onclick="get_all_base_info()">检索所有信息（每次25条，完毕会有弹窗）</button>
+        <button onclick="get_all_base_info()" title="每次100条，完毕会有弹窗提醒">检索所有信息</button>
         <button onclick="download_base_info()">导出检索出的信息</button>
         <button onclick="download_id()">导出文件id</button>
         <button onclick="download2()">下载音频文件</button>
     </div>
     <div class="row_class" id="row3">
+        <span>音频数：</span>
+        <span id="voice_scale">--</span>&nbsp;&nbsp;
+        <span>页数范围：</span>
+        <input type="text" id="page_scope" placeholder="格式：起始页数-结束页数，不填默认全部" value="" />&nbsp;&nbsp;
         <span>请求接口的间隔时间(ms)：</span>
-        <input type="text" id="request_interval_input" placeholder="不建议太短，可能会寄，默认5000毫秒" value="5000" />
+        <input type="text" id="request_interval_input" placeholder="不建议太短，可能会寄，默认5000毫秒" value="5000" />&nbsp;&nbsp;
         <span>下载音频的间隔时间(ms)：</span>
         <input type="text" id="download_interval_input" placeholder="不建议太短，可能会寄，默认2000毫秒" value="2000" />
     </div>

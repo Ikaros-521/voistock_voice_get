@@ -3,6 +3,9 @@ var contentsName = [];
 var id = [];
 var voiceText = [];
 
+// 单次请求获取的数据量，10 25 50 100
+var page_size = 100;
+
 let searchContent = "";
 let searchDataResult = [];
 
@@ -40,7 +43,7 @@ function init_alert_div() {
     alert_content_span.style.width = "280px";
     alert_content_span.style.fontSize = "16px";
     alert_content_span.style.color = "white";
-    alert_content_span.style.backgroundColor = "#4a4a4aaa";
+    alert_content_span.style.backgroundColor = "#4a4a4a00";
     alert_content_span.innerText = "";
 
     alert_div.appendChild(alert_content_span);
@@ -76,10 +79,42 @@ function isNumber(str) {
     return /^\d+$/.test(str);
 }
 
+// 匹配数字-数字格式
+function isValidFormat(str) {
+    // 匹配数字-数字格式，其中数字部分使用括号捕获
+    const regex = /^(\d+)-(\d+)$/;
+    const match = str.match(regex);
+    if (!match) {
+        return null; // 不符合格式要求，返回 null
+    }
+  
+    // 将捕获的数字转为整数并比较大小
+    const num1 = parseInt(match[1]);
+    const num2 = parseInt(match[2]);
+    if (isNaN(num1) || isNaN(num2) || num1 > num2) {
+        return null; // 前面的数字大于后面的数字，或者存在非数字字符，返回 null
+    }
+  
+    return [num1, num2]; // 符合格式要求且前面的数字小于后面的数字
+}
+
 async function get_all_base_info() {
     // 获取下待搜索的关键词
     let content = document.getElementById("content_input").value;
     searchContent = content;
+
+    // 检索页面范围
+    let page_scope = document.getElementById("page_scope").value;
+    let start_page = 1;
+    let end_page = 2;
+
+    let ret_nums = isValidFormat(page_scope);
+    if(ret_nums) {
+        start_page = ret_nums[0];
+        end_page = ret_nums[1];
+    } else {
+        console.log("页数范围格式非 数字-数字，使用默认配置");
+    }
 
     // 获取请求间隔时间
     let request_interval = document.getElementById("request_interval_input").value;
@@ -92,11 +127,13 @@ async function get_all_base_info() {
     }
     console.log("搜索内容:" + content + " | 请求间隔时间:" + request_interval.toString() + "毫秒");
     show_alert("开始请求接口获取数据喵~");
+
     // 初始传参
-    let page = 1;
-    let start = 0;
+    let page = start_page;
+    let start = (page - 1) * page_size;
     let voice_num = Number.MAX_VALUE;
     let result = [];
+
     let get_base_info_then = async function (page, start) {
         console.log(voice_num);
         let message = `请求第${page}页，起始坐标${start}。`
@@ -114,11 +151,20 @@ async function get_all_base_info() {
     }
     try {
         // let promise_list = [];
-        for (let i = 0; i <= voice_num / 25; i++) {
+
+        var loop_num = 0;
+        // 用户设定的页面范围溢出
+        if((voice_num / page_size) < end_page) {
+            loop_num = (voice_num / page_size) - start_page - 1;
+        } else {
+            loop_num = end_page - start_page;
+        }
+
+        for (let i = 0; i <= loop_num; i++) {
             // promise_list.push(get_base_info_then(page, start));
             await get_base_info_then(page, start);
             page += 1;
-            start += 25;
+            start += page_size;
         }
         // let result_list = await Promise.all(promise_list)
 
@@ -185,7 +231,7 @@ async function get_base_info(content, page, start) {
             }, {
                 "data": "playlist", "name": "", "searchable": true, "orderable": true,
                 "search": {"value": "", "regex": false}
-            }], "order": [{"column": 12, "dir": "desc"}], "start": start, "length": 25,
+            }], "order": [{"column": 12, "dir": "desc"}], "start": start, "length": page_size,
             "search": {"value": content, "regex": false}, "myId": "635b36253e4186037b165562", "lang": "ja",
             "searchword": content
         };
@@ -304,6 +350,7 @@ async function get_base_info(content, page, start) {
                 }
 
                 var voice_num = 0;
+                var recordsTotal = 0;
                 try {
                     voice_num = json["recordsFiltered"];
                 } catch (e) {
@@ -314,7 +361,10 @@ async function get_base_info(content, page, start) {
 
                 console.log("音频总数=" + voice_num.toString());
                 // show_alert("音频总数=" + voice_num.toString());
+                document.getElementById("voice_scale").innerText = (start + page_size) + '/' + voice_num;
+
                 console.log(result);
+                
                 resolve([result, voice_num, str]);
 
             } else if (httpRequest.status !== 200) {
