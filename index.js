@@ -143,12 +143,22 @@ async function get_all_base_info() {
         show_alert(message, false);
 
         const [data, _voice_num, str] = await get_base_info(content, page, start);
-        voice_num = _voice_num
-        result.push(...data);
-        // 追加入文本框
-        document.getElementById("textarea1").value += str;
-        clear_alert();
+
+        if(data != undefined) {
+            console.log("data")
+            console.log(data)
+
+            voice_num = _voice_num
+            result.push(...data);
+            // 追加入文本框
+            document.getElementById("textarea1").value += str;
+            clear_alert();
+        }
     }
+
+    // console.log("searchDataResult");
+    // console.log(searchDataResult);
+
     try {
         // let promise_list = [];
 
@@ -268,12 +278,12 @@ async function get_base_info(content, page, start) {
                         console.log(id);
                         console.log("无数据了");
                         show_alert("没有新数据了");
-                        return;
+                        resolve([]);
                     }
                 } catch (e) {
                     console.log("发生异常:" + e);
                     show_alert("发生异常:" + e);
-                    return;
+                    resolve([]);
                 }
 
                 var searchStrings = ["<", ">"];
@@ -334,7 +344,7 @@ async function get_base_info(content, page, start) {
 
                     var s = (start + i + 1) + "：内容：" + temp4 + " | 声优：" + voiceactnames + " | 源自：" + temp2;
                     // str
-                    console.log(s);
+                    // console.log(s);
 
                     str += s + "\n";
                     result.push({
@@ -355,7 +365,6 @@ async function get_base_info(content, page, start) {
                 } catch (e) {
                     show_alert('发生异常' + e);
                     reject(httpRequest, e);
-                    return;
                 }
 
                 console.log("音频总数=" + voice_num.toString());
